@@ -6,6 +6,7 @@ public class Main {
 
         StudentManager manager = new StudentManager();
         manager.loadStudents();
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -15,9 +16,11 @@ public class Main {
             System.out.println("2. Edit Student");
             System.out.println("3. Show Students");
             System.out.println("4. Delete Student");
-            System.out.println("5. Save Students");
-            System.out.println("6. Load Students");
-            System.out.println("7. Exit");
+            System.out.println("5. Search Student");
+            System.out.println("6. Statistics");
+            System.out.println("7. Sort by Name");
+            System.out.println("8. Sort by Age");
+            System.out.println("9. Exit");
             System.out.print("Choose an option: ");
 
             if (!scanner.hasNextInt()) {
@@ -141,15 +144,28 @@ public class Main {
 
                 case 5:
 
-                    manager.saveStudents();
+                    System.out.print("Student Name: ");
+                    String searchName = scanner.nextLine();
+
+                    manager.searchStudent(searchName);
                     break;
 
                 case 6:
 
-                    manager.loadStudents();
+                    manager.showStatistics();
                     break;
 
                 case 7:
+
+                    manager.sortByName();
+                    break;
+
+                case 8:
+
+                    manager.sortByAge();
+                    break;
+
+                case 9:
 
                     manager.saveStudents();
 
@@ -162,4 +178,5 @@ public class Main {
             }
         }
     }
+
 }
