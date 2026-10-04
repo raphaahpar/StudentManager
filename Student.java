@@ -1,11 +1,17 @@
 public class Student {
 
+    private final int id;
     private String name;
     private int age;
 
-    public Student(String name, int age) {
+    public Student(int id, String name, int age) {
+        this.id = id;
         this.name = name;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -26,6 +32,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{name='" + name + "', age=" + age + "}";
+        return "Student{id=" + id + ", name='" + name + "', age=" + age + "}";
     }
 }

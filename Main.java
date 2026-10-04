@@ -29,12 +29,14 @@ public class Main {
             switch (choice) {
 
                 case 1:
+
                     System.out.print("Name: ");
                     String name = scanner.nextLine();
 
                     int age;
 
                     while (true) {
+
                         System.out.print("Age: ");
 
                         if (!scanner.hasNextInt()) {
@@ -66,7 +68,7 @@ public class Main {
 
                     manager.showStudents();
 
-                    System.out.print("Choose student to edit: ");
+                    System.out.print("Student ID: ");
 
                     if (!scanner.hasNextInt()) {
                         System.out.println("Must be a number.");
@@ -74,23 +76,40 @@ public class Main {
                         continue;
                     }
 
-                    int studentEdit = scanner.nextInt();
-
-                    System.out.print("Updated Age: ");
-
-                    if (!scanner.hasNextInt()) {
-                        System.out.println("Age must be a number.");
-                        scanner.nextLine();
-                        continue;
-                    }
-
-                    int newAge = scanner.nextInt();
+                    int editId = scanner.nextInt();
                     scanner.nextLine();
 
-                    manager.updateStudent(studentEdit, newAge);
+                    System.out.print("New Name: ");
+                    String newName = scanner.nextLine();
+
+                    int newAge;
+
+                    while (true) {
+
+                        System.out.print("New Age: ");
+
+                        if (!scanner.hasNextInt()) {
+                            System.out.println("Age must be a number.");
+                            scanner.nextLine();
+                            continue;
+                        }
+
+                        newAge = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (newAge < 0) {
+                            System.out.println("Age cannot be negative.");
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                    manager.updateStudent(editId, newName, newAge);
                     break;
 
                 case 3:
+
                     manager.showStudents();
                     break;
 
@@ -101,18 +120,30 @@ public class Main {
                         break;
                     }
 
-                    System.out.print("Name of student to delete: ");
-                    String studentName = scanner.nextLine();
+                    manager.showStudents();
 
-                    manager.deleteStudent(studentName);
+                    System.out.print("Student ID to delete: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Must be a number.");
+                        scanner.nextLine();
+                        continue;
+                    }
+
+                    int deleteId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    manager.deleteStudent(deleteId);
                     break;
 
                 case 5:
+
                     System.out.println("Goodbye.");
                     scanner.close();
                     return;
 
                 default:
+
                     System.out.println("Invalid option.");
             }
         }

@@ -3,17 +3,27 @@ import java.util.ArrayList;
 public class StudentManager {
 
     private ArrayList<Student> students;
+    private int nextId;
 
     public StudentManager() {
         students = new ArrayList<>();
+        nextId = 1;
     }
 
     public void addStudent(String name, int age) {
-        students.add(new Student(name, age));
+
+        if (nameExists(name)) {
+            System.out.println("Student name already exists.");
+            return;
+        }
+
+        students.add(new Student(nextId++, name, age));
+
         System.out.println("Student added successfully.");
     }
 
     public void showStudents() {
+
         if (students.isEmpty()) {
             System.out.println("No students found.");
             return;
@@ -21,14 +31,16 @@ public class StudentManager {
 
         System.out.println("\nStudents:");
 
-        for (int i = 0; i < students.size(); i++) {
-            System.out.println((i + 1) + ". " + students.get(i));
+        for (Student student : students) {
+            System.out.println(student);
         }
     }
 
-    public void deleteStudent(String name) {
+    public void deleteStudent(int id) {
+
         for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getName().equalsIgnoreCase(name)) {
+
+            if (students.get(i).getId() == id) {
                 students.remove(i);
                 System.out.println("Student deleted successfully.");
                 return;
@@ -38,9 +50,11 @@ public class StudentManager {
         System.out.println("Student not found.");
     }
 
-    public void updateStudent(int studentIndex, int newAge) {
+    public void updateStudent(int id, String newName, int newAge) {
 
-        if (studentIndex < 1 || studentIndex > students.size()) {
+        Student student = findById(id);
+
+        if (student == null) {
             System.out.println("Student not found.");
             return;
         }
@@ -50,11 +64,47 @@ public class StudentManager {
             return;
         }
 
-        students.get(studentIndex - 1).setAge(newAge);
+        for (Student otherStudent : students) {
+
+            if (otherStudent.getId() != id
+                    && otherStudent.getName().equalsIgnoreCase(newName)) {
+
+                System.out.println("Student name already exists.");
+                return;
+            }
+        }
+
+        student.setName(newName);
+        student.setAge(newAge);
+
         System.out.println("Student updated successfully.");
     }
 
     public boolean isEmpty() {
         return students.isEmpty();
+    }
+
+    private boolean nameExists(String name) {
+
+        for (Student student : students) {
+
+            if (student.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Student findById(int id) {
+
+        for (Student student : students) {
+
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+
+        return null;
     }
 }
