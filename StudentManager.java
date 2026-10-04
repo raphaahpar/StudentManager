@@ -38,6 +38,22 @@ public class StudentManager {
         System.out.println("Student not found.");
     }
 
+    public void updateStudent(int studentIndex, int newAge) {
+
+        if (studentIndex < 1 || studentIndex > students.size()) {
+            System.out.println("Student not found.");
+            return;
+        }
+
+        if (newAge < 0) {
+            System.out.println("Age cannot be negative.");
+            return;
+        }
+
+        students.get(studentIndex - 1).setAge(newAge);
+        System.out.println("Student updated successfully.");
+    }
+
     public boolean isEmpty() {
         return students.isEmpty();
     }
