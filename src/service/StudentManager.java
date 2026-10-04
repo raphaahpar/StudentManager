@@ -1,10 +1,10 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+package src.service;
+
 import java.util.ArrayList;
 import java.util.Comparator;
+
+import src.model.Student;
+import src.util.FileManager;
 
 public class StudentManager {
 
@@ -12,8 +12,21 @@ public class StudentManager {
     private int nextId;
 
     public StudentManager() {
-        students = new ArrayList<>();
+
+        students = FileManager.loadStudents();
+
         nextId = 1;
+
+        for (Student student : students) {
+
+            if (student.getId() >= nextId) {
+                nextId = student.getId() + 1;
+            }
+        }
+    }
+
+    public void save() {
+        FileManager.saveStudents(students);
     }
 
     public void addStudent(String name, int age) {
@@ -106,88 +119,22 @@ public class StudentManager {
         }
     }
 
-    public boolean isEmpty() {
-        return students.isEmpty();
+    public void sortByName() {
+
+        students.sort(
+                Comparator.comparing(
+                        Student::getName,
+                        String.CASE_INSENSITIVE_ORDER));
+
+        System.out.println("Students sorted by name.");
     }
 
-    private boolean nameExists(String name) {
+    public void sortByAge() {
 
-        for (Student student : students) {
+        students.sort(
+                Comparator.comparingInt(Student::getAge));
 
-            if (student.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private Student findById(int id) {
-
-        for (Student student : students) {
-
-            if (student.getId() == id) {
-                return student;
-            }
-        }
-
-        return null;
-    }
-
-    public void saveStudents() {
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("students.txt"))) {
-
-            for (Student student : students) {
-
-                writer.write(
-                        student.getId()
-                                + ";"
-                                + student.getName()
-                                + ";"
-                                + student.getAge());
-
-                writer.newLine();
-            }
-
-            System.out.println("Students saved successfully.");
-
-        } catch (IOException e) {
-            System.out.println("Error while saving students.");
-        }
-    }
-
-    public void loadStudents() {
-
-        students.clear();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("students.txt"))) {
-
-            String line;
-            int highestId = 0;
-
-            while ((line = reader.readLine()) != null) {
-
-                String[] parts = line.split(";");
-
-                int id = Integer.parseInt(parts[0]);
-                String name = parts[1];
-                int age = Integer.parseInt(parts[2]);
-
-                students.add(new Student(id, name, age));
-
-                if (id > highestId) {
-                    highestId = id;
-                }
-            }
-
-            nextId = highestId + 1;
-
-            System.out.println("Students loaded successfully.");
-
-        } catch (IOException e) {
-            System.out.println("No save file found.");
-        }
+        System.out.println("Students sorted by age.");
     }
 
     public void showStatistics() {
@@ -221,36 +168,40 @@ public class StudentManager {
         System.out.println("Total students: " + students.size());
         System.out.printf("Average age: %.2f%n", averageAge);
 
-        System.out.println(
-                "Youngest student: "
-                        + youngest.getName()
-                        + " ("
-                        + youngest.getAge()
-                        + ")");
+        System.out.println("Youngest student: "
+                + youngest.getName()
+                + " (" + youngest.getAge() + ")");
 
-        System.out.println(
-                "Oldest student: "
-                        + oldest.getName()
-                        + " ("
-                        + oldest.getAge()
-                        + ")");
+        System.out.println("Oldest student: "
+                + oldest.getName()
+                + " (" + oldest.getAge() + ")");
     }
 
-    public void sortByName() {
-
-        students.sort(
-                Comparator.comparing(
-                        Student::getName,
-                        String.CASE_INSENSITIVE_ORDER));
-
-        System.out.println("Students sorted by name.");
+    public boolean isEmpty() {
+        return students.isEmpty();
     }
 
-    public void sortByAge() {
+    private Student findById(int id) {
 
-        students.sort(
-                Comparator.comparingInt(Student::getAge));
+        for (Student student : students) {
 
-        System.out.println("Students sorted by age.");
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean nameExists(String name) {
+
+        for (Student student : students) {
+
+            if (student.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
