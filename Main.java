@@ -1,10 +1,10 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        ArrayList<Student> students = new ArrayList<>();
+        StudentManager manager = new StudentManager();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -32,6 +32,7 @@ public class Main {
                     String name = scanner.nextLine();
 
                     int age;
+
                     while (true) {
                         System.out.print("Age: ");
 
@@ -52,47 +53,23 @@ public class Main {
                         break;
                     }
 
-                    students.add(new Student(name, age));
-                    System.out.println("Student added successfully.");
+                    manager.addStudent(name, age);
                     break;
 
                 case 2:
-                    if (students.isEmpty()) {
-                        System.out.println("No students found.");
-                    } else {
-                        System.out.println("\nStudents:");
-
-                        for (int i = 0; i < students.size(); i++) {
-                            System.out.println((i + 1) + ". " + students.get(i));
-                        }
-                    }
+                    manager.showStudents();
                     break;
 
                 case 3:
-                    if (students.isEmpty()) {
+                    if (manager.isEmpty()) {
                         System.out.println("No students found.");
                         break;
                     }
 
                     System.out.print("Name of student to delete: ");
-                    String nameToDelete = scanner.nextLine();
+                    String studentName = scanner.nextLine();
 
-                    boolean deleted = false;
-
-                    for (int i = 0; i < students.size(); i++) {
-                        if (students.get(i).getName().equalsIgnoreCase(nameToDelete)) {
-                            students.remove(i);
-                            deleted = true;
-                            break;
-                        }
-                    }
-
-                    if (deleted) {
-                        System.out.println("Student deleted successfully.");
-                    } else {
-                        System.out.println("Student not found.");
-                    }
-
+                    manager.deleteStudent(studentName);
                     break;
 
                 case 4:
