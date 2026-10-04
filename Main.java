@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         StudentManager manager = new StudentManager();
+        manager.loadStudents();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -14,7 +15,9 @@ public class Main {
             System.out.println("2. Edit Student");
             System.out.println("3. Show Students");
             System.out.println("4. Delete Student");
-            System.out.println("5. Exit");
+            System.out.println("5. Save Students");
+            System.out.println("6. Load Students");
+            System.out.println("7. Exit");
             System.out.print("Choose an option: ");
 
             if (!scanner.hasNextInt()) {
@@ -138,10 +141,21 @@ public class Main {
 
                 case 5:
 
+                    manager.saveStudents();
+                    break;
+
+                case 6:
+
+                    manager.loadStudents();
+                    break;
+
+                case 7:
+
+                    manager.saveStudents();
+
                     System.out.println("Goodbye.");
                     scanner.close();
                     return;
-
                 default:
 
                     System.out.println("Invalid option.");
