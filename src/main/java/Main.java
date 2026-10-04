@@ -1,9 +1,9 @@
-package src;
+package src.main.java;
 
 import java.util.Scanner;
 
-import src.service.StudentManager;
-import src.util.InputHelper;
+import src.main.java.service.StudentManager;
+import src.main.java.util.InputHelper;
 
 public class Main {
 

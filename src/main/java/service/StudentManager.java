@@ -1,10 +1,10 @@
-package src.service;
+package src.main.java.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import src.model.Student;
-import src.util.FileManager;
+import src.main.java.model.Student;
+import src.main.java.util.FileManager;
 
 public class StudentManager {
 

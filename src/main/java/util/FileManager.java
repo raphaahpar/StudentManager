@@ -1,4 +1,4 @@
-package src.util;
+package src.main.java.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import src.model.Student;
+import src.main.java.model.Student;
 
 public class FileManager {
 
